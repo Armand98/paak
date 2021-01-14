@@ -1,6 +1,6 @@
-# USBLocker - Security Key Software
+# P.A.A.K (Pendrive as a key) - Security Software
 ## Table of Contents
-* [Licens](#licens)
+* [License](#License)
 * [General info](#general-info)
 * [Technologies](#technologies)
 * [Setup](#setup)
