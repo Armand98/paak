@@ -14,6 +14,7 @@ namespace USB_Locker
         public logonScreen()
         {
             InitializeComponent();
+            IOClass.CreateRootDirectory();
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)

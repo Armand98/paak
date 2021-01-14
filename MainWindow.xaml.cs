@@ -28,6 +28,10 @@ namespace USB_Locker
         private User LoggedUser;
         private string Username;
         private string RsaPrivateKey;
+        private string UserFilesFilepath;
+        private string UserEncryptedFilesFilepath;
+        private string UserFoldersFilepath;
+        private string UserKeyDataFilepath;
         private bool DidUserLoggedUnauthorized;
         private bool AuthorizationStatus;
 
@@ -68,6 +72,11 @@ namespace USB_Locker
             }
 
             labelSecurityQuestion.Content = LoggedUser.GetQuestion();
+
+            this.UserFilesFilepath = @"C:\PAAK\" + username + @"\files.json";
+            this.UserFoldersFilepath = @"C:\PAAK\" + username + @"\folders.json";
+            this.UserKeyDataFilepath = @"C:\PAAK\" + username + @"\data.json";
+            this.UserEncryptedFilesFilepath = @"C:\PAAK\" + username + @"\encryptedFiles.json";
 
             var uiSyncContext = SynchronizationContext.Current;
 
@@ -166,7 +175,7 @@ namespace USB_Locker
                     if (result2.Equals(MessageBoxResult.Yes))
                     {
                         Files.Clear();
-                        IOClass.SaveFilesList(Files, @"C:\temp\files.json");
+                        IOClass.SaveFilesList(Files, this.UserFilesFilepath);
                         bindFilesListBox();
                         bindDeviceListBoxes();
 
@@ -213,16 +222,16 @@ namespace USB_Locker
         {
             CommonOpenFileDialog fileDialog = new CommonOpenFileDialog
             {
-                InitialDirectory = "C:\\",
+                InitialDirectory = @"C:\",
                 Multiselect = true
             };
 
             if (fileDialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                Files = IOClass.ReadFilesList(@"C:\temp\files.json");
+                Files = IOClass.ReadFilesList(this.UserFilesFilepath);
                 Files.AddRange(fileDialog.FileNames);
                 listBoxFiles.ItemsSource = Files;
-                IOClass.SaveFilesList(Files, @"C:\temp\files.json");
+                IOClass.SaveFilesList(Files, this.UserFilesFilepath);
             }
         }
 
@@ -235,22 +244,22 @@ namespace USB_Locker
         {
             CommonOpenFileDialog folderDialog = new CommonOpenFileDialog
             {
-                InitialDirectory = "C:\\",
+                InitialDirectory = @"C:\",
                 IsFolderPicker = true
             };
 
             if (folderDialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                Folders = IOClass.ReadFoldersList();
+                Folders = IOClass.ReadFoldersList(this.UserFoldersFilepath);
                 Folders.AddRange(folderDialog.FileNames);
 
                 foreach(string folderPath in folderDialog.FileNames)
                     ProcessDirectory(folderPath, true);
 
-                IOClass.SaveFilesList(Files, @"C:\temp\files.json");
+                IOClass.SaveFilesList(Files, this.UserFilesFilepath);
                 listBoxFolders.ItemsSource = Folders;
                 listBoxFiles.ItemsSource = Files;
-                IOClass.SaveFoldersList(Folders);
+                IOClass.SaveFoldersList(Folders, this.UserFoldersFilepath);
             }
         }
 
@@ -276,9 +285,9 @@ namespace USB_Locker
         {
             string selectedItem = listBoxFolders.SelectedItem.ToString();
             ProcessDirectory(selectedItem, false);
-            IOClass.SaveFilesList(Files, @"C:\temp\files.json");
+            IOClass.SaveFilesList(Files, this.UserFilesFilepath);
             Folders.Remove(selectedItem);
-            IOClass.SaveFoldersList(Folders);
+            IOClass.SaveFoldersList(Folders, this.UserFoldersFilepath);
             listBoxFiles.ItemsSource = Files;
             listBoxFolders.ItemsSource = Folders;
         }
@@ -397,8 +406,8 @@ namespace USB_Locker
         /// </summary>
         private void bindFilesListBox()
         {
-            Files = IOClass.ReadFilesList(@"C:\temp\files.json");
-            EncryptedFiles = IOClass.ReadFilesList(@"C:\temp\encryptedFiles.json");
+            Files = IOClass.ReadFilesList(UserFilesFilepath);
+            EncryptedFiles = IOClass.ReadFilesList(this.UserEncryptedFilesFilepath);
 
             if (Files.Count > 0)
             {
@@ -415,7 +424,7 @@ namespace USB_Locker
         /// </summary>
         private void bindFoldersListBox()
         {
-            Folders = IOClass.ReadFoldersList();
+            Folders = IOClass.ReadFoldersList(this.UserFoldersFilepath);
             if (Folders.Count > 0)
             {
                 listBoxFolders.ItemsSource = Folders;
@@ -496,7 +505,7 @@ namespace USB_Locker
         /// </summary>
         private void UpdateDevicesStatus()
         {
-            TrustedDevices = IOClass.ReadTrustedDevicesList();
+            TrustedDevices = IOClass.ReadTrustedDevicesList(this.UserKeyDataFilepath);
             UpdateConnectedTrustedDevices();
             bindDeviceListBoxes();
             labelKeysCounter.Content = TrustedDevices.Count;
@@ -534,8 +543,8 @@ namespace USB_Locker
                     });
                     decryptionTask.Wait();
                     EncryptedFiles.Clear();
-                    IOClass.SaveFilesList(Files, @"C:\temp\files.json");
-                    IOClass.SaveFilesList(EncryptedFiles, @"C:\temp\encryptedFiles.json");
+                    IOClass.SaveFilesList(Files, this.UserFilesFilepath);
+                    IOClass.SaveFilesList(EncryptedFiles, this.UserEncryptedFilesFilepath);
                 }
 
                 uiSyncContext.Post((s) =>
@@ -567,8 +576,8 @@ namespace USB_Locker
                     });
                     encryptionTask.Wait();
                     Files.Clear();
-                    IOClass.SaveFilesList(Files, @"C:\temp\files.json");
-                    IOClass.SaveFilesList(EncryptedFiles, @"C:\temp\encryptedFiles.json");
+                    IOClass.SaveFilesList(Files, this.UserFilesFilepath);
+                    IOClass.SaveFilesList(EncryptedFiles, this.UserEncryptedFilesFilepath);
                 }
 
                 uiSyncContext.Post((s) =>
@@ -625,7 +634,7 @@ namespace USB_Locker
                         string aesKey = LoggedUser.GetAesKey();
                         string encryptedAesKey = DataCryptography.EncryptAESKey(aesKey, publicKeyString);
 
-                        if (IOClass.SaveTrustedDevicesList(TrustedDevices) &&
+                        if (IOClass.SaveTrustedDevicesList(TrustedDevices, this.UserKeyDataFilepath) &&
                             IOClass.SavePrivateKeyOnDevice(device.Path, privateKeyString))
                         {
                             LoggedUser.SetPublicKeyXmlString(publicKeyString);
@@ -662,7 +671,8 @@ namespace USB_Locker
                 if (device.VolumeName.Equals(deviceName) && device.Model.Equals(deviceModel))
                 {
                     TrustedDevices.Remove(device);
-                    if(IOClass.RemovePrivateKeyFromDevice(device.Path) && IOClass.SaveTrustedDevicesList(TrustedDevices))
+                    if(IOClass.RemovePrivateKeyFromDevice(device.Path) && 
+                       IOClass.SaveTrustedDevicesList(TrustedDevices, this.UserKeyDataFilepath))
                     {
                         LoggedUser.SetPublicKeyXmlString(null);
                         LoggedUser.setAesKey(null);
@@ -801,10 +811,10 @@ namespace USB_Locker
                         LoggedUser.SetPublicKeyXmlString(String.Empty);
                         LoggedUser.setAesKey(aesKey);
 
-                        IOClass.SaveFilesList(Files, @"C:\temp\files.json");
-                        IOClass.SaveFilesList(EncryptedFiles, @"C:\temp\encryptedFiles.json");
-                        IOClass.SaveFoldersList(Folders);
-                        IOClass.SaveTrustedDevicesList(TrustedDevices);
+                        IOClass.SaveFilesList(Files, this.UserFilesFilepath);
+                        IOClass.SaveFilesList(EncryptedFiles, this.UserEncryptedFilesFilepath);
+                        IOClass.SaveFoldersList(Folders, this.UserFoldersFilepath);
+                        IOClass.SaveTrustedDevicesList(TrustedDevices, this.UserKeyDataFilepath);
                         IOClass.UpdateUser(LoggedUser);
                         
 

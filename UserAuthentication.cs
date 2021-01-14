@@ -60,7 +60,7 @@ namespace USB_Locker
                                                                                                                                user.GetQuestion(),
                                                                                                                                user.GetAnswer().ToLower())));
 
-                if (IOClass.SaveNewUser(userHashedData))
+                if (IOClass.SaveNewUser(userHashedData, user.GetUsername()))
                     return 0;
                 else
                     return 1;

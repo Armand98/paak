@@ -9,17 +9,34 @@ namespace USB_Locker
     /// </summary>
     static class IOClass
     {
+        private static readonly string UsersDataFilepath = @"C:\PAAK\users.json";
 
         #region IO User Data
+
+        public static void CreateRootDirectory()
+        {
+            string path = @"C:\PAAK";
+
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+        }
 
         /// <summary>
         /// Saves new user in json file
         /// </summary>
         /// <param name="user"></param>
         /// <returns>True if saving went successful</returns>
-        public static bool SaveNewUser(User user)
+        public static bool SaveNewUser(User user, string username)
         {
-            string filePath = @"C:\temp\users.json";
+            string path = @"C:\PAAK\" + username;
+
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
             List<User> usersList = ReadUsersList();
             if (usersList.Count == 0)
                 user.SetID(1);
@@ -28,7 +45,7 @@ namespace USB_Locker
 
             usersList.Add(user);
             string jsonString = JsonConvert.SerializeObject(usersList.ToArray(), Formatting.Indented);
-            File.WriteAllText(filePath, jsonString);
+            File.WriteAllText(UsersDataFilepath, jsonString);
             return true;
         }
 
@@ -39,7 +56,6 @@ namespace USB_Locker
         /// <returns></returns>
         public static bool UpdateUser(User updatedUser)
         {
-            string filePath = @"C:\temp\users.json";
             List<User> usersList = ReadUsersList();
             foreach(User user in usersList)
             {
@@ -51,7 +67,7 @@ namespace USB_Locker
                 }
             }
             string jsonString = JsonConvert.SerializeObject(usersList.ToArray(), Formatting.Indented);
-            File.WriteAllText(filePath, jsonString);
+            File.WriteAllText(UsersDataFilepath, jsonString);
             return true;
         }
 
@@ -62,11 +78,10 @@ namespace USB_Locker
         public static List<User> ReadUsersList()
         {
             List<User> usersList = new List<User>();
-            string filePath = @"C:\temp\users.json";
 
-            if (File.Exists(filePath))
+            if (File.Exists(UsersDataFilepath))
             {
-                string jsonString = File.ReadAllText(filePath);
+                string jsonString = File.ReadAllText(UsersDataFilepath);
                 usersList = JsonConvert.DeserializeObject<List<User>>(jsonString);
             }
 
@@ -114,14 +129,13 @@ namespace USB_Locker
         /// Reads folder paths list from json file
         /// </summary>
         /// <returns>List of folder paths</returns>
-        public static List<string> ReadFoldersList()
+        public static List<string> ReadFoldersList(string filepath)
         {
             List<string> folders = new List<string>();
-            string filePath = @"C:\temp\folders.json";
 
-            if (File.Exists(filePath))
+            if (File.Exists(filepath))
             {
-                string jsonString = File.ReadAllText(filePath);
+                string jsonString = File.ReadAllText(filepath);
                 folders = JsonConvert.DeserializeObject<List<string>>(jsonString);
             }
 
@@ -133,11 +147,10 @@ namespace USB_Locker
         /// </summary>
         /// <param name="folderPaths"></param>
         /// <returns>True if saving went successful</returns>
-        public static bool SaveFoldersList(List<string> folderPaths)
+        public static bool SaveFoldersList(List<string> folderPaths, string filepath)
         {
-            string filePath = @"C:\temp\folders.json";
             string jsonString = JsonConvert.SerializeObject(folderPaths.ToArray(), Formatting.Indented);
-            File.WriteAllText(filePath, jsonString);
+            File.WriteAllText(filepath, jsonString);
             return true;
         }
 
@@ -150,11 +163,10 @@ namespace USB_Locker
         /// </summary>
         /// <param name="trustedDevices"></param>
         /// <returns>True if saving went successful</returns>
-        public static bool SaveTrustedDevicesList(List<DeviceInfo> trustedDevices)
+        public static bool SaveTrustedDevicesList(List<DeviceInfo> trustedDevices, string filepath)
         {
-            string filePath = @"C:\temp\data.json";
             string jsonString = JsonConvert.SerializeObject(trustedDevices.ToArray(), Formatting.Indented);
-            File.WriteAllText(filePath, jsonString);
+            File.WriteAllText(filepath, jsonString);
             return true;
         }
 
@@ -162,14 +174,13 @@ namespace USB_Locker
         /// Reads trusted devices list from json file
         /// </summary>
         /// <returns>List of trusted devices objects</returns>
-        public static List<DeviceInfo> ReadTrustedDevicesList()
+        public static List<DeviceInfo> ReadTrustedDevicesList(string filepath)
         {
             List<DeviceInfo> devices = new List<DeviceInfo>();
-            string filePath = @"C:\temp\data.json";
 
-            if (File.Exists(filePath))
+            if (File.Exists(filepath))
             {
-                string jsonString = File.ReadAllText(filePath);
+                string jsonString = File.ReadAllText(filepath);
                 devices = JsonConvert.DeserializeObject<List<DeviceInfo>>(jsonString);
             }
             return devices;
