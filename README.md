@@ -1,6 +1,6 @@
 # P.A.A.K (Pendrive as a key) - Security Software
 ## Table of Contents
-* [Licens](#License)
+* [License](#License)
 * [General info](#general-info)
 * [Technologies](#technologies)
 * [Setup](#setup)
