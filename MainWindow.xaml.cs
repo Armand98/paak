@@ -476,11 +476,7 @@ namespace USB_Locker
                             string model = (string)diskDrive["Model"];
                             string serialNumber = (string)diskDrive["SerialNumber"];
                             long size = Convert.ToInt64(volume["Size"]);
-                            string path = volumeLetter + @":\USBLockerPrivateKey.xml";
-
-                            //string Manufacturer = (string)diskDrive["Manufacturer"];
-                            //string MediaType = (string)diskDrive["MediaType"];
-                            //long FreeSpace = Convert.ToInt64(volume["FreeSpace"]);
+                            string path = volumeLetter + @":\PAAK_PrivateKey.xml";
 
                             devices.Add(new DeviceInfo(volumeLetter.ToString(), volumeName, model, serialNumber, size, path));
                         }
@@ -675,7 +671,6 @@ namespace USB_Locker
                        IOClass.SaveTrustedDevicesList(TrustedDevices, this.UserKeyDataFilepath))
                     {
                         LoggedUser.SetPublicKeyXmlString(null);
-                        LoggedUser.setAesKey(null);
                         IOClass.UpdateUser(LoggedUser);
                         return true;
                     }
