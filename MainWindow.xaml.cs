@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
-using System.Management;
 using System.Windows.Media;
 using System.Threading;
 using Microsoft.WindowsAPICodePack.Dialogs;
@@ -326,6 +325,148 @@ namespace USB_Locker
             }
         }
 
+        /// <summary>
+        /// Enables auto start with operationg system
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void comboBoxAutoStart_Checked(object sender, RoutedEventArgs e)
+        {
+            if (checkBoxAutoStart.IsChecked ?? false)
+            {
+                Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+                string str = System.Reflection.Assembly.GetExecutingAssembly().Location;
+                key.SetValue("Paak", str);
+            }
+            else
+            {
+                Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", false);
+                string str = System.Reflection.Assembly.GetExecutingAssembly().Location;
+                key.SetValue("Paak", str);
+            }
+
+        }
+
+        /// <summary>
+        /// Provides placeholder effect
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void textBoxSecurityAnswer_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (textBoxSecurityAnswer.Text.Equals("Security answer"))
+            {
+                textBoxSecurityAnswer.Text = string.Empty;
+                textBoxSecurityAnswer.Opacity = 1;
+            }
+        }
+
+        /// <summary>
+        /// Provides placeholder effect
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void textBoxSecurityAnswer_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (textBoxSecurityAnswer.Text.Equals(string.Empty))
+            {
+                textBoxSecurityAnswer.Text = "Security answer";
+                textBoxSecurityAnswer.Opacity = 0.5;
+            }
+        }
+
+        /// <summary>
+        /// Provides placeholder effect
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void textBoxRecoveryPassword_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (textBoxRecoveryPassword.Password.Equals("Password"))
+            {
+                textBoxRecoveryPassword.Password = string.Empty;
+                textBoxRecoveryPassword.Opacity = 1;
+            }
+        }
+
+        /// <summary>
+        /// Provides placeholder effect
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void textBoxRecoveryPassword_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (textBoxRecoveryPassword.Password.Equals(string.Empty))
+            {
+                textBoxRecoveryPassword.Password = "Password";
+                textBoxRecoveryPassword.Opacity = 0.5;
+            }
+        }
+
+        /// <summary>
+        /// Provides files recovery feature
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnRecoverFiles_Click(object sender, RoutedEventArgs e)
+        {
+            string securityAnswer = textBoxSecurityAnswer.Text.ToLower();
+            string password = textBoxRecoveryPassword.Password;
+
+            if (EncryptedFiles.Count.Equals(0))
+            {
+                MessageBox.Show("You have no files to recover.", "No encrypted files found", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                if (DataCryptography.SHA512(securityAnswer).Equals(LoggedUser.GetAnswer()) && DataCryptography.SHA512(password).Equals(LoggedUser.GetPassword()))
+                {
+                    MessageBoxResult result = MessageBox.Show("Do you want to recover your files? All your program settings and keys will be deleted.", "Files recovery system", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                    if (result.Equals(MessageBoxResult.Yes))
+                    {
+                        string aesKey = DataCryptography.SHA512(DataCryptography.GenerateAesKey(this.Username,
+                                                                                                password,
+                                                                                                LoggedUser.GetQuestion(),
+                                                                                                securityAnswer));
+
+                        List<string> tempEncryptedFiles = new List<string>(EncryptedFiles);
+                        EncryptedFiles.Clear();
+                        Files.Clear();
+                        Folders.Clear();
+                        TrustedDevices.Clear();
+
+                        var decryptionTask = Task.Run(() =>
+                        {
+                            foreach (string encryptedFilePath in tempEncryptedFiles)
+                            {
+                                string filePath = DataCryptography.FileDecrypt(encryptedFilePath, aesKey);
+                            }
+                        });
+                        decryptionTask.Wait();
+
+                        LoggedUser.SetPublicKeyXmlString(String.Empty);
+                        LoggedUser.setAesKey(aesKey);
+
+                        IOClass.SaveFilesList(Files, this.UserFilesFilepath);
+                        IOClass.SaveFilesList(EncryptedFiles, this.UserEncryptedFilesFilepath);
+                        IOClass.SaveFoldersList(Folders, this.UserFoldersFilepath);
+                        IOClass.SaveTrustedDevicesList(TrustedDevices, this.UserKeyDataFilepath);
+                        IOClass.UpdateUser(LoggedUser);
+
+                        bindFilesListBox();
+                        bindFoldersListBox();
+
+                        MessageBox.Show("Your files are decrypted now.", "Files recovery system", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Security answer or password incorrect!", "Files recovery system", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+            }
+        }
+
         #endregion
 
         #region List Boxes Binding Methods
@@ -396,7 +537,7 @@ namespace USB_Locker
                 deleteTrustedDeviceBtn.Visibility = Visibility.Hidden;
                 deleteTrustedDeviceBtn.IsEnabled = false;
                 statusLabel.Content = "No trusted devices found";
-                statusLabel.Foreground = Brushes.Red;
+                statusLabel.Foreground = Brushes.Orange;
                 statusLabel.Visibility = Visibility.Visible;
             }
         }
@@ -440,49 +581,7 @@ namespace USB_Locker
         /// </summary>
         private void UpdateConnectedDevices()
         {
-            List<DeviceInfo> devices = new List<DeviceInfo>();
-
-            ManagementObjectSearcher diskDrives = new ManagementObjectSearcher("SELECT * FROM Win32_DiskDrive WHERE InterfaceType='USB'");
-            foreach (ManagementObject diskDrive in diskDrives.Get())
-            {
-                string DeviceID = diskDrive["DeviceID"].ToString();
-                string DriveLetter = "";
-                string DriveDescription = "";
-
-                ManagementObjectSearcher partitionSearcher = new ManagementObjectSearcher(String.Format(
-                    "associators of {{Win32_DiskDrive.DeviceID='{0}'}} where AssocClass = Win32_DiskDriveToDiskPartition",
-                    diskDrive["DeviceID"]));
-
-                foreach (ManagementObject partition in partitionSearcher.Get())
-                {
-                    ManagementObjectSearcher logicalSearcher = new ManagementObjectSearcher(String.Format(
-                        "associators of {{Win32_DiskPartition.DeviceID='{0}'}} where AssocClass = Win32_LogicalDiskToPartition",
-                        partition["DeviceID"]));
-
-                    foreach (ManagementObject logical in logicalSearcher.Get())
-                    {
-                        ManagementObjectSearcher volumeSearcher = new ManagementObjectSearcher(String.Format(
-                            "select * from Win32_LogicalDisk where Name='{0}'",
-                            logical["Name"]));
-
-                        foreach (ManagementObject volume in volumeSearcher.Get())
-                        {
-                            DriveLetter = volume["Name"].ToString();
-                            if (volume["VolumeName"] != null)
-                                DriveDescription = volume["VolumeName"].ToString();
-
-                            char volumeLetter = DriveLetter[0];
-                            string volumeName = DriveDescription;
-                            string model = (string)diskDrive["Model"];
-                            string serialNumber = (string)diskDrive["SerialNumber"];
-                            long size = Convert.ToInt64(volume["Size"]);
-                            string path = volumeLetter + @":\PAAK_PrivateKey.xml";
-
-                            devices.Add(new DeviceInfo(volumeLetter.ToString(), volumeName, model, serialNumber, size, path));
-                        }
-                    }
-                }
-            }
+            List<DeviceInfo> devices = DeviceSearcher.ReadConnectedDevices();
 
             if (devices.Equals(ConnectedDevices))
             {
@@ -545,7 +644,7 @@ namespace USB_Locker
 
                 uiSyncContext.Post((s) =>
                 {
-                    labelStatus.Foreground = new SolidColorBrush(Colors.Gold);
+                    labelStatus.Foreground = new SolidColorBrush(Colors.GreenYellow);
                     labelStatus.Content = "Authorized";
                     bindFilesListBox();
                 }, null);
@@ -713,117 +812,6 @@ namespace USB_Locker
 
         #endregion
 
-        private void comboBoxAutoStart_Checked(object sender, RoutedEventArgs e)
-        {
-            if(checkBoxAutoStart.IsChecked ?? false)
-            {
-                Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-                string str = System.Reflection.Assembly.GetExecutingAssembly().Location;
-                key.SetValue("Paak", str);
-            }
-            else
-            {
-                Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", false);
-                string str = System.Reflection.Assembly.GetExecutingAssembly().Location;
-                key.SetValue("Paak", str);
-            }
-            
-        }
-
-        private void textBoxSecurityAnswer_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (textBoxSecurityAnswer.Text.Equals("Security answer"))
-            {
-                textBoxSecurityAnswer.Text = string.Empty;
-                textBoxSecurityAnswer.Opacity = 1;
-            }
-        }
-
-        private void textBoxSecurityAnswer_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (textBoxSecurityAnswer.Text.Equals(string.Empty))
-            {
-                textBoxSecurityAnswer.Text = "Security answer";
-                textBoxSecurityAnswer.Opacity = 0.5;
-            }
-        }
-
-        private void textBoxRecoveryPassword_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (textBoxRecoveryPassword.Password.Equals("Password"))
-            {
-                textBoxRecoveryPassword.Password = string.Empty;
-                textBoxRecoveryPassword.Opacity = 1;
-            }
-        }
-
-        private void textBoxRecoveryPassword_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (textBoxRecoveryPassword.Password.Equals(string.Empty))
-            {
-                textBoxRecoveryPassword.Password = "Password";
-                textBoxRecoveryPassword.Opacity = 0.5;
-            }
-        }
-
-        private void btnRecoverFiles_Click(object sender, RoutedEventArgs e)
-        {
-            string securityAnswer = textBoxSecurityAnswer.Text.ToLower();
-            string password = textBoxRecoveryPassword.Password;
-
-            if (EncryptedFiles.Count.Equals(0))
-            {
-                MessageBox.Show("You have no files to recover.", "No encrypted files found", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            else
-            {
-                if (DataCryptography.SHA512(securityAnswer).Equals(LoggedUser.GetAnswer()) && DataCryptography.SHA512(password).Equals(LoggedUser.GetPassword()))
-                {
-                    MessageBoxResult result = MessageBox.Show("Do you want to recover your files? All your program settings and keys will be deleted.", "Files recovery system", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-                    if (result.Equals(MessageBoxResult.Yes))
-                    {
-                        string aesKey = DataCryptography.SHA512(DataCryptography.GenerateAesKey(this.Username,
-                                                                                                password,
-                                                                                                LoggedUser.GetQuestion(),
-                                                                                                securityAnswer));
-
-                        List<string> tempEncryptedFiles = new List<string>(EncryptedFiles);
-                        EncryptedFiles.Clear();
-                        Files.Clear();
-                        Folders.Clear();
-                        TrustedDevices.Clear();
-
-                        var decryptionTask = Task.Run(() =>
-                        {
-                            foreach (string encryptedFilePath in tempEncryptedFiles)
-                            {
-                                string filePath = DataCryptography.FileDecrypt(encryptedFilePath, aesKey);
-                            }
-                        });
-                        decryptionTask.Wait();
-
-                        LoggedUser.SetPublicKeyXmlString(String.Empty);
-                        LoggedUser.setAesKey(aesKey);
-
-                        IOClass.SaveFilesList(Files, this.UserFilesFilepath);
-                        IOClass.SaveFilesList(EncryptedFiles, this.UserEncryptedFilesFilepath);
-                        IOClass.SaveFoldersList(Folders, this.UserFoldersFilepath);
-                        IOClass.SaveTrustedDevicesList(TrustedDevices, this.UserKeyDataFilepath);
-                        IOClass.UpdateUser(LoggedUser);
-                        
-
-                        bindFilesListBox();
-                        bindFoldersListBox();
-
-                        MessageBox.Show("Your files are decrypted now.", "Files recovery system", MessageBoxButton.OK, MessageBoxImage.Information);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Security answer or password incorrect!", "Files recovery system", MessageBoxButton.OK, MessageBoxImage.Warning);
-                }
-            }
-        }
+        
     }
 }

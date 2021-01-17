@@ -59,11 +59,11 @@
                     </Grid.RowDefinitions>
 
                     <StackPanel VerticalAlignment="Center" Grid.Column="1">
-                        <iconPacks:PackIconMaterial Kind="Lock" Foreground="White" 
+                        <iconPacks:PackIconMaterial Kind="LockOpen" Foreground="White" 
                                             HorizontalAlignment="Center" 
                                             VerticalAlignment="Center"
                                             Height="150" Width="150"
-                                            Margin="0,0,0,10"/>
+                                            Margin="0,30,0,10"/>
                         <TextBlock Text="P . A . A . K"
                            FontWeight="Light"
                            FontSize="40"
@@ -122,7 +122,7 @@
                            FontWeight="Light"
                            FontSize="50"
                            HorizontalAlignment="Center"
-                           Foreground="Gold"/>
+                           Foreground="GreenYellow"/>
                     </StackPanel>
                 </Grid>
             </TabItem>
@@ -168,7 +168,7 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Files">
-                <StackPanel Margin="0,10,0,0">
+                <StackPanel Margin="0,50,0,0">
                     <TextBlock Text="Protected files" HorizontalAlignment="Center"/>
 
                     <ListBox x:Name="listBoxFiles" Width="800"  MaxHeight="300" 
@@ -184,7 +184,7 @@
                 </StackPanel>
             </TabItem>
             <TabItem Header="Folders">
-                <StackPanel Margin="0,10,0,0">
+                <StackPanel Margin="0,50,0,0">
                     <TextBlock Text="Protected folders" 
                            HorizontalAlignment="Center"/>
 
@@ -200,7 +200,7 @@
                     </StackPanel>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="File recovery">
+            <TabItem Header="Factory reset / lost key">
                 <StackPanel Margin="0, 100, 0, 0" HorizontalAlignment="Center">
                     <Label Content="In case you have lost your key, you can recover your files here." HorizontalAlignment="Center"></Label>
                     <StackPanel Orientation="Horizontal" Margin="0,20,0,0" 
