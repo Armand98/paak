@@ -31,7 +31,7 @@ Project is created with:
 Windows .NET Framework 4.0
 
 ### Instalation
-Download paak.exe portable file
+Download PAAK.exe from paak_portable folder
 	
 ## Features
 * Login
