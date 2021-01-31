@@ -1591,9 +1591,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Armand\\Desktop\\USBLocker\\USB_Locker.csproj",
-      "projectName": "USB_Locker",
-      "projectPath": "C:\\Users\\Armand\\Desktop\\USBLocker\\USB_Locker.csproj",
+      "projectUniqueName": "C:\\Users\\Armand\\Desktop\\USBLocker\\PAAK.csproj",
+      "projectName": "PAAK",
+      "projectPath": "C:\\Users\\Armand\\Desktop\\USBLocker\\PAAK.csproj",
       "packagesPath": "C:\\Users\\Armand\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\Armand\\Desktop\\USBLocker\\obj\\",
       "projectStyle": "PackageReference",
