@@ -46,26 +46,26 @@ Project inspired by YubiKey
 Email: pajorarmand@gmail.com
 
 ## Screenshots
-1. Login screen:
+1. Login screen: <br/>
 ![Alt text](screenshots/loginScreen.png)
 
-2. Registration screen:
+2. Registration screen: <br/>
 ![Alt text](screenshots/registerScreen.png)
 
-3. General information screen (Unauthorized):
+3. General information screen (Unauthorized): <br/>
 ![Alt text](screenshots/generalPageScreenUnauthorized.png)
 
-4. General information screen (Authorized):
+4. General information screen (Authorized): <br/>
 ![Alt text](screenshots/generalPageScreenAuthorized.png)
 
-5. Devices screen:
+5. Devices screen: <br/>
 ![Alt text](screenshots/devicesStep1.png)
 
-6. Files screen:
+6. Files screen: <br/>
 ![Alt text](screenshots/filesPage.png)
 
-7. Folders screen:
+7. Folders screen: <br/>
 ![Alt text](screenshots/foldersPage.png)
 
-8. Factory reset (files recovery):
-![Alt text](screenshots/devicesStep1.png)
+8. Factory reset (files recovery): <br/>
+![Alt text](screenshots/factoryReset1.png)
