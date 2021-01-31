@@ -31,10 +31,16 @@ Project is created with:
 Windows .NET Framework 4.0
 
 ### Instalation
-Download paak.exe file
+Download paak.exe portable file
 	
 ## Features
-
+* Login
+* Registration
+* USB devices monitoring system
+* Creating an authentication key from USB device with RSA cryptography
+* Files and folders explorer
+* Files AES cryptography
+* Factory reset and data recovery
 
 ## Status
 1.0 version released
