@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "qYopxSERCpTJRd50umHT155xo/BAaNLFYOJSRQYimcYOXi+Ux36xB1Jq/4pGz8y7elGAWfwIfaLYx3/zYiHgtw==",
+  "dgSpecHash": "coku3frqZiouHvDX2jG2hvuk5Ka2VPvef2/tDtsgr54JWHFc90Cdej89pA2Qs0VNw4y8IQVXJs3ZQzHmQMyvdA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Armand\\Desktop\\USBLocker\\PAAK.csproj",
+  "projectFilePath": "C:\\Users\\Armand\\Desktop\\paak\\PAAK.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Armand\\.nuget\\packages\\mahapps.metro.iconpacks.material\\4.5.0\\mahapps.metro.iconpacks.material.4.5.0.nupkg.sha512",
     "C:\\Users\\Armand\\.nuget\\packages\\materialdesigncolors\\1.2.7\\materialdesigncolors.1.2.7.nupkg.sha512",

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Armand\\Desktop\\USBLocker\\PAAK.csproj": {}
+    "C:\\Users\\Armand\\Desktop\\paak\\PAAK.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Armand\\Desktop\\USBLocker\\PAAK.csproj": {
+    "C:\\Users\\Armand\\Desktop\\paak\\PAAK.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Armand\\Desktop\\USBLocker\\PAAK.csproj",
+        "projectUniqueName": "C:\\Users\\Armand\\Desktop\\paak\\PAAK.csproj",
         "projectName": "PAAK",
-        "projectPath": "C:\\Users\\Armand\\Desktop\\USBLocker\\PAAK.csproj",
+        "projectPath": "C:\\Users\\Armand\\Desktop\\paak\\PAAK.csproj",
         "packagesPath": "C:\\Users\\Armand\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Armand\\Desktop\\USBLocker\\obj\\",
+        "outputPath": "C:\\Users\\Armand\\Desktop\\paak\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\Microsoft\\Xamarin\\NuGet\\"
