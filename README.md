@@ -46,4 +46,4 @@ Project inspired by YubiKey
 Email: pajorarmand@gmail.com
 
 ## Screenshots
-![Alt text]()
+![Alt text](screenshots/loginScreen.png)
