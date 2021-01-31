@@ -12,7 +12,7 @@
 
 ## License
 Copyright (c) 2021 Armand Pajor  
-USBLocker is provided as-is under the MIT license for noncomercial and educational purposes.
+PAAK is provided as-is under the MIT license for noncomercial and educational purposes.
 
 ## General info
 This program allows to create an authentication key from USB device and protect your files.  
