@@ -77,7 +77,7 @@ namespace USB_Locker
             if (password.Equals("Password"))
                 password = string.Empty;
 
-            if (UserAuthentication.login(login, password))
+            if (UserAuthentication.Login(login, password))
             {
                 MainWindow mainWindow = new MainWindow(login);
                 mainWindow.Show();

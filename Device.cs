@@ -1,6 +1,6 @@
 ﻿namespace USB_Locker
 {
-    class DeviceInfo
+    class Device
     {
         public string VolumeLetter { get; private set; }
         public string VolumeName { get; private set; }
@@ -10,7 +10,7 @@
         public string Path { get; private set; }
         public long ProtectedFilesQuantity { get; private set; }
 
-        public DeviceInfo(string volumeLetter, string volumeName, string model, string serialNumber, long size, string path)
+        public Device(string volumeLetter, string volumeName, string model, string serialNumber, long size, string path)
         {
             this.VolumeLetter = volumeLetter;
             this.VolumeName = volumeName;

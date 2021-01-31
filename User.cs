@@ -2,17 +2,17 @@
 {
     class User
     {
-        public int UserID { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public string Birthday { get; set; }
-        public string Question { get; set; }
-        public string Answer { get; set; }
-        public int KeysQuantity { get; set; }
-        public string PublicKeyXml { get; set; }
-        public string AesKey { get; set; }
+        private int UserID { get; set; }
+        private string FirstName { get; set; }
+        private string LastName { get; set; }
+        private string Username { get; set; }
+        private string Password { get; set; }
+        private string Birthday { get; set; }
+        private string Question { get; set; }
+        private string Answer { get; set; }
+        private int KeysQuantity { get; set; }
+        private string PublicKeyXml { get; set; }
+        private string AesKey { get; set; }
 
         public User(string firstName, string lastName, string username, string password, string birthday, string question, string answer, string aesKey)
         {
@@ -103,7 +103,7 @@
             return this.AesKey;
         }
 
-        public void setAesKey(string key)
+        public void SetAesKey(string key)
         {
             this.AesKey = key;
         }

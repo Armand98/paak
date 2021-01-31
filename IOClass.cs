@@ -13,6 +13,9 @@ namespace USB_Locker
 
         #region IO User Data
 
+        /// <summary>
+        /// Creates root directory for application's data
+        /// </summary>
         public static void CreateRootDirectory()
         {
             string path = @"C:\PAAK";
@@ -163,7 +166,7 @@ namespace USB_Locker
         /// </summary>
         /// <param name="trustedDevices"></param>
         /// <returns>True if saving went successful</returns>
-        public static bool SaveTrustedDevicesList(List<DeviceInfo> trustedDevices, string filepath)
+        public static bool SaveTrustedDevicesList(List<Device> trustedDevices, string filepath)
         {
             string jsonString = JsonConvert.SerializeObject(trustedDevices.ToArray(), Formatting.Indented);
             File.WriteAllText(filepath, jsonString);
@@ -174,14 +177,14 @@ namespace USB_Locker
         /// Reads trusted devices list from json file
         /// </summary>
         /// <returns>List of trusted devices objects</returns>
-        public static List<DeviceInfo> ReadTrustedDevicesList(string filepath)
+        public static List<Device> ReadTrustedDevicesList(string filepath)
         {
-            List<DeviceInfo> devices = new List<DeviceInfo>();
+            List<Device> devices = new List<Device>();
 
             if (File.Exists(filepath))
             {
                 string jsonString = File.ReadAllText(filepath);
-                devices = JsonConvert.DeserializeObject<List<DeviceInfo>>(jsonString);
+                devices = JsonConvert.DeserializeObject<List<Device>>(jsonString);
             }
             return devices;
         }

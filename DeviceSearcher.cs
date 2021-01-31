@@ -4,15 +4,15 @@ using System.Management;
 
 namespace USB_Locker
 {
-    class DeviceSearcher
+    static class DeviceSearcher
     {
         /// <summary>
         /// Provides 
         /// </summary>
-        /// <returns>List of DeviceInfo objects</returns>
-        public static List<DeviceInfo> ReadConnectedDevices()
+        /// <returns>List of Device objects</returns>
+        public static List<Device> ReadConnectedDevices()
         {
-            List<DeviceInfo> devices = new List<DeviceInfo>();
+            List<Device> devices = new List<Device>();
 
             ManagementObjectSearcher diskDrives = new ManagementObjectSearcher("SELECT * FROM Win32_DiskDrive WHERE InterfaceType='USB'");
             foreach (ManagementObject diskDrive in diskDrives.Get())
@@ -50,7 +50,7 @@ namespace USB_Locker
                             long size = Convert.ToInt64(volume["Size"]);
                             string path = volumeLetter + @":\PAAK_PrivateKey.xml";
 
-                            devices.Add(new DeviceInfo(volumeLetter.ToString(), volumeName, model, serialNumber, size, path));
+                            devices.Add(new Device(volumeLetter.ToString(), volumeName, model, serialNumber, size, path));
                         }
                     }
                 }

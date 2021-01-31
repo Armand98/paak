@@ -17,9 +17,9 @@ namespace USB_Locker
     {
         #region Private Members
 
-        private List<DeviceInfo> ConnectedDevices;
-        private List<DeviceInfo> TrustedDevices;
-        private List<DeviceInfo> ConnectedTrustedDevices;
+        private List<Device> ConnectedDevices;
+        private List<Device> TrustedDevices;
+        private List<Device> ConnectedTrustedDevices;
         private List<string> Files;
         private List<string> EncryptedFiles;
         private List<string> Folders;
@@ -446,7 +446,7 @@ namespace USB_Locker
                         decryptionTask.Wait();
 
                         LoggedUser.SetPublicKeyXmlString(String.Empty);
-                        LoggedUser.setAesKey(aesKey);
+                        LoggedUser.SetAesKey(aesKey);
 
                         IOClass.SaveFilesList(Files, this.UserFilesFilepath);
                         IOClass.SaveFilesList(EncryptedFiles, this.UserEncryptedFilesFilepath);
@@ -581,7 +581,7 @@ namespace USB_Locker
         /// </summary>
         private void UpdateConnectedDevices()
         {
-            List<DeviceInfo> devices = DeviceSearcher.ReadConnectedDevices();
+            List<Device> devices = DeviceSearcher.ReadConnectedDevices();
 
             if (devices.Equals(ConnectedDevices))
             {
@@ -626,7 +626,7 @@ namespace USB_Locker
                     // New Task to decrypt all files
                     var decryptionTask = Task.Run(() =>
                     {
-                        string password = DataCryptography.DecryptAESKey(LoggedUser.AesKey, RsaPrivateKey);
+                        string password = DataCryptography.DecryptAESKey(LoggedUser.GetAesKey(), RsaPrivateKey);
                         GCHandle gCHandle = GCHandle.Alloc(password, GCHandleType.Pinned);
                         foreach (string encryptedFilePath in EncryptedFiles)
                         {
@@ -659,7 +659,7 @@ namespace USB_Locker
                     // New Task to encrypt all files
                     var encryptionTask = Task.Run(() =>
                     {
-                        string password = DataCryptography.DecryptAESKey(LoggedUser.AesKey, RsaPrivateKey);
+                        string password = DataCryptography.DecryptAESKey(LoggedUser.GetAesKey(), RsaPrivateKey);
                         GCHandle gCHandle = GCHandle.Alloc(password, GCHandleType.Pinned);
 
                         foreach (string filePath in Files)
@@ -694,7 +694,7 @@ namespace USB_Locker
         /// </summary>
         void UpdateConnectedTrustedDevices()
         {
-            List<DeviceInfo> devices = new List<DeviceInfo>();
+            List<Device> devices = new List<Device>();
             foreach (var trustedDevice in TrustedDevices)
             {
                 foreach (var connectedDevice in ConnectedDevices)
@@ -737,7 +737,7 @@ namespace USB_Locker
                             IOClass.SavePrivateKeyOnDevice(device.Path, privateKeyString))
                         {
                             LoggedUser.SetPublicKeyXmlString(publicKeyString);
-                            LoggedUser.setAesKey(encryptedAesKey);
+                            LoggedUser.SetAesKey(encryptedAesKey);
                             LoggedUser.SetKeysQuantity(LoggedUser.GetKeysQuantity() + 1);
                             IOClass.UpdateUser(LoggedUser);
                             break;
@@ -775,7 +775,7 @@ namespace USB_Locker
                        IOClass.SaveTrustedDevicesList(TrustedDevices, this.UserKeyDataFilepath))
                     {
                         LoggedUser.SetPublicKeyXmlString(null);
-                        LoggedUser.setAesKey(String.Empty);
+                        LoggedUser.SetAesKey(String.Empty);
                         LoggedUser.SetKeysQuantity(LoggedUser.GetKeysQuantity() - 1);
                         IOClass.UpdateUser(LoggedUser);
                         return true;

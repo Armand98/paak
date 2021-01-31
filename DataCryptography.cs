@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace USB_Locker
 {
-    class DataCryptography
+    static class DataCryptography
     {
         #region AES
 
@@ -102,12 +102,12 @@ namespace USB_Locker
             return inputFile + ".aes";
         }
 
-        public static string FileDecrypt(string inputFileName, string password)
+        public static string FileDecrypt(string inputFile, string password)
         {
             byte[] passwords = Encoding.UTF8.GetBytes(password);
             byte[] salt = new byte[32];
             string outputFileName = string.Empty;
-            using (FileStream fsCrypt = new FileStream(inputFileName, FileMode.Open))
+            using (FileStream fsCrypt = new FileStream(inputFile, FileMode.Open))
             {
                 fsCrypt.Read(salt, 0, salt.Length);
                 RijndaelManaged AES = new RijndaelManaged
@@ -120,7 +120,7 @@ namespace USB_Locker
                 AES.IV = key.GetBytes(AES.BlockSize / 8);
                 AES.Padding = PaddingMode.PKCS7;
                 AES.Mode = CipherMode.CBC;
-                outputFileName = inputFileName.Substring(0, inputFileName.LastIndexOf("."));
+                outputFileName = inputFile.Substring(0, inputFile.LastIndexOf("."));
                 using (CryptoStream cryptoStream = new CryptoStream(fsCrypt, AES.CreateDecryptor(), CryptoStreamMode.Read))
                 {
                     using (FileStream fsOut = new FileStream(outputFileName, FileMode.Create))
@@ -134,7 +134,7 @@ namespace USB_Locker
                     }
                 }
             }
-            File.Delete(inputFileName);
+            File.Delete(inputFile);
             return outputFileName;
         }
 

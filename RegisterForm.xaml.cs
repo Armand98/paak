@@ -47,7 +47,7 @@ namespace USB_Locker
             question = comboBoxQuestion.Text;
             answer = textBoxAnswer.Text;
 
-            switch(UserAuthentication.validateRegisterData(firstName, lastName, username, password, birthday, question, answer))
+            switch(UserAuthentication.ValidateRegisterData(firstName, lastName, username, password, birthday, question, answer))
             {
                 case 1:
                     MessageBox.Show("You need to fill in a form to create an account.", "Wrong register data", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -74,7 +74,7 @@ namespace USB_Locker
                 case 0:
                     {
                         User user = new User(firstName, lastName, username, password, birthday, question, answer, "");
-                        switch (UserAuthentication.register(user))
+                        switch (UserAuthentication.Register(user))
                         {
                             case 0:
                                 {

@@ -17,7 +17,7 @@ namespace USB_Locker
         /// <param name="password"></param>
         /// <returns>True - if credentials were ok, 
         /// False - if credentials were wrong</returns>
-        public static bool login(string login, string password)
+        public static bool Login(string login, string password)
         {
             List<User> usersList = IOClass.ReadUsersList();
             string loginHash = DataCryptography.SHA512(login);
@@ -43,10 +43,10 @@ namespace USB_Locker
         /// <returns>0 - if registration went successful, 
         /// 1 - if some error occured, 
         /// 2 - if username is already used</returns>
-        public static int register(User user)
+        public static int Register(User user)
         {
             string hashedUsername = DataCryptography.SHA512(user.GetUsername());
-            if (isUsernameNotTaken(hashedUsername))
+            if (IsUsernameNotTaken(hashedUsername))
             {
                 User userHashedData = new User(DataCryptography.SHA512(user.GetFirstName()),
                                                                        DataCryptography.SHA512(user.GetLastName()),
@@ -74,7 +74,7 @@ namespace USB_Locker
         /// <param name="username">Users username passed from register form</param>
         /// <returns>True - if username is not used, 
         /// False - if username is used</returns>
-        public static bool isUsernameNotTaken(string username)
+        public static bool IsUsernameNotTaken(string username)
         {
             List<User> usersList = IOClass.ReadUsersList();
             
@@ -103,7 +103,7 @@ namespace USB_Locker
         /// 3 - if password length is too short or is too simple, 
         /// 4 - if password contains white spaces,
         /// 5 - if date format is wrong</returns>
-        public static int validateRegisterData(string firstName, string lastName, string username, string password, string birthday, string question, string answer)
+        public static int ValidateRegisterData(string firstName, string lastName, string username, string password, string birthday, string question, string answer)
         {
             if (firstName.Equals("First name"))
                 firstName = string.Empty;
