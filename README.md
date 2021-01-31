@@ -1,4 +1,4 @@
-# P.A.A.K (Pendrive as a key) - Security Software
+# PAAK (Pendrive as a key) - Security Software
 ## Table of Contents
 * [License](#License)
 * [General info](#general-info)
@@ -11,8 +11,8 @@
 * [Screenshots](#screenshots)
 
 ## License
-Copyright © Armand Pajor  
-USBLocker is provided as-is under the MIT license.
+Copyright (c) 2021 Armand Pajor  
+USBLocker is provided as-is under the MIT license for noncomercial and educational purposes.
 
 ## General info
 This program allows to create an authentication key from USB device and protect your files.  
@@ -27,19 +27,23 @@ Project is created with:
 * Material Design Themes version: 3.2.0
 	
 ## Setup
-Coming soon  
+### Prerequisites
+Windows .NET Framework 4.0
 
+### Instalation
+Download paak.exe file
+	
 ## Features
-Coming soon  
+
 
 ## Status
-Project is under development  
+1.0 version released
 
 ## Inspiration
-Project inspired by YubiKey  
+Project inspired by YubiKey
 
 ## Contact
 Email: pajorarmand@gmail.com
 
 ## Screenshots
-Coming soon
+![Alt text]()
