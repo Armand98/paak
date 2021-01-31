@@ -72,10 +72,12 @@ namespace USB_Locker
         {
             byte[] salt = GenerateSalt();
             byte[] passwords = Encoding.UTF8.GetBytes(password);
-            RijndaelManaged AES = new RijndaelManaged();
-            AES.KeySize = 256;
-            AES.BlockSize = 128;
-            AES.Padding = PaddingMode.PKCS7;
+            RijndaelManaged AES = new RijndaelManaged
+            {
+                KeySize = 256,
+                BlockSize = 128,
+                Padding = PaddingMode.PKCS7
+            };
             var key = new Rfc2898DeriveBytes(passwords, salt, 50000);
             AES.Key = key.GetBytes(AES.KeySize / 8);
             AES.IV = key.GetBytes(AES.BlockSize / 8);
@@ -108,9 +110,11 @@ namespace USB_Locker
             using (FileStream fsCrypt = new FileStream(inputFileName, FileMode.Open))
             {
                 fsCrypt.Read(salt, 0, salt.Length);
-                RijndaelManaged AES = new RijndaelManaged();
-                AES.KeySize = 256;
-                AES.BlockSize = 128;
+                RijndaelManaged AES = new RijndaelManaged
+                {
+                    KeySize = 256,
+                    BlockSize = 128
+                };
                 var key = new Rfc2898DeriveBytes(passwords, salt, 50000);
                 AES.Key = key.GetBytes(AES.KeySize / 8);
                 AES.IV = key.GetBytes(AES.BlockSize / 8);

@@ -646,6 +646,8 @@ namespace USB_Locker
                 {
                     labelStatus.Foreground = new SolidColorBrush(Colors.GreenYellow);
                     labelStatus.Content = "Authorized";
+                    IconLock.Kind = MahApps.Metro.IconPacks.PackIconMaterialKind.LockOpen;
+                    IconLock.Foreground = new SolidColorBrush(Colors.GreenYellow);
                     bindFilesListBox();
                 }, null);
             }
@@ -677,8 +679,10 @@ namespace USB_Locker
 
                 uiSyncContext.Post((s) =>
                 {
-                    labelStatus.Foreground = new SolidColorBrush(Colors.Red);
+                    labelStatus.Foreground = new SolidColorBrush(Colors.OrangeRed);
                     labelStatus.Content = "Unauthorized";
+                    IconLock.Kind = MahApps.Metro.IconPacks.PackIconMaterialKind.Lock;
+                    IconLock.Foreground = new SolidColorBrush(Colors.OrangeRed);
                     bindFilesListBox();
                 }, null);
 
@@ -734,6 +738,7 @@ namespace USB_Locker
                         {
                             LoggedUser.SetPublicKeyXmlString(publicKeyString);
                             LoggedUser.setAesKey(encryptedAesKey);
+                            LoggedUser.SetKeysQuantity(LoggedUser.GetKeysQuantity() + 1);
                             IOClass.UpdateUser(LoggedUser);
                             break;
                         }
@@ -770,6 +775,8 @@ namespace USB_Locker
                        IOClass.SaveTrustedDevicesList(TrustedDevices, this.UserKeyDataFilepath))
                     {
                         LoggedUser.SetPublicKeyXmlString(null);
+                        LoggedUser.setAesKey(String.Empty);
+                        LoggedUser.SetKeysQuantity(LoggedUser.GetKeysQuantity() - 1);
                         IOClass.UpdateUser(LoggedUser);
                         return true;
                     }
