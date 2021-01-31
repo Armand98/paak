@@ -31,7 +31,7 @@ Project is created with:
 Windows .NET Framework 4.0
 
 ### Instalation
-Download PAAK.exe from paak_portable folder
+Download PAAK.exe from Paak_portable folder https://github.com/Armand98/paak/blob/master/Paak_portable/PAAK.exe
 	
 ## Features
 * Login
