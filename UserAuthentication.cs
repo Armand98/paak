@@ -8,7 +8,7 @@ namespace USB_Locker
     /// <summary>
     /// Provides all authorization methods
     /// </summary>
-    static class UserAuthentication
+    public static class UserAuthentication
     {
         /// <summary>
         /// Checks user's credentials and allows to log in
@@ -98,11 +98,14 @@ namespace USB_Locker
         /// <param name="birthday">User's birthday</param>
         /// <param name="question">User's security question</param>
         /// <param name="answer">User's security answer</param>
-        /// <returns>1 - if some parameters were empty, 
+        /// <returns>
+        /// 0 - if parameters are fine,
+        /// 1 - if some parameters are empty, 
         /// 2 - if username length is too short, 
         /// 3 - if password length is too short or is too simple, 
         /// 4 - if password contains white spaces,
-        /// 5 - if date format is wrong</returns>
+        /// 5 - if date format is wrong
+        /// </returns>
         public static int ValidateRegisterData(string firstName, string lastName, string username, string password, string birthday, string question, string answer)
         {
             if (firstName.Equals("First name"))

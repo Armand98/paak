@@ -15,7 +15,7 @@
                             BorderBrush="White">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"></ContentPresenter>
                     </Border>
-            </ControlTemplate>
+                </ControlTemplate>
             </Setter.Value>
         </Setter>
 
@@ -26,7 +26,26 @@
                 <Setter Property="Foreground" Value="DeepSkyBlue"/>
             </Trigger>
         </Style.Triggers>
-        
+
     </Style>
-    
+
+    <Style x:Key="_ListBoxItemStyle" TargetType="ListBoxItem">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <Border Name="_Border"
+                                Padding="2"
+                                SnapsToDevicePixels="true">
+                        <ContentPresenter />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="true">
+                            <Setter TargetName="_Border" Property="Background" Value="#19FFFFFF"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>

@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace USB_Locker
 {
-    static class DataCryptography
+    public static class DataCryptography
     {
         #region AES
 

@@ -1,6 +1,6 @@
 ﻿namespace USB_Locker
 {
-    class User
+    public class User
     {
         private int UserID { get; set; }
         private string FirstName { get; set; }

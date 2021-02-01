@@ -172,7 +172,8 @@
                                    HorizontalAlignment="Center" 
                                    Foreground="White"/>
 
-                        <ListBox x:Name="listBoxConnectedDevices"
+                        <ListBox ItemContainerStyle="{DynamicResource _ListBoxItemStyle}"
+                                 x:Name="listBoxConnectedDevices"
                                  Width="425" 
                                  Margin="0,5,0,5" 
                                  MaxHeight="200" 
