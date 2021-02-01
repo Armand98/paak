@@ -127,7 +127,7 @@ namespace USB_Locker {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/USB_Locker;component/registerform.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/PAAK;component/registerform.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\RegisterForm.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

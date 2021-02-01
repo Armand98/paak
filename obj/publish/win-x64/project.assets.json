@@ -2303,11 +2303,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Armand\\Desktop\\USBLocker\\USB_Locker.csproj",
-      "projectName": "USB_Locker",
-      "projectPath": "C:\\Users\\Armand\\Desktop\\USBLocker\\USB_Locker.csproj",
+      "projectUniqueName": "C:\\Users\\Armand\\Desktop\\paak\\PAAK.csproj",
+      "projectName": "PAAK",
+      "projectPath": "C:\\Users\\Armand\\Desktop\\paak\\PAAK.csproj",
       "packagesPath": "C:\\Users\\Armand\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Armand\\Desktop\\USBLocker\\obj\\publish\\win-x64\\",
+      "outputPath": "C:\\Users\\Armand\\Desktop\\paak\\obj\\publish\\win-x64\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "D:\\Microsoft\\Xamarin\\NuGet\\"
@@ -2373,20 +2373,6 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
-            "version": "[3.1.9, 3.1.9]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Runtime.win-x64",
-            "version": "[3.1.9, 3.1.9]"
-          },
-          {
-            "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
-            "version": "[3.1.9, 3.1.9]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"

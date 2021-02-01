@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "jncG9VTGiejbnt7S2UjSfsASa5mqcUKo6A4q5d6Qy5yemrDnGdGqyW4woNbdt5xVqNAJZZfhWi/bOxbczHH0Fw==",
+  "dgSpecHash": "DQkAlXJvJY92SN57ice8g/h8+XQ06yQ39rYivUygULUY0cONhNTYw9ojoyyyeNJ4OadF9jhOoEn3oV48OtfrQA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Armand\\Desktop\\USBLocker\\USB_Locker.csproj",
+  "projectFilePath": "C:\\Users\\Armand\\Desktop\\paak\\PAAK.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Armand\\.nuget\\packages\\mahapps.metro.iconpacks.material\\4.5.0\\mahapps.metro.iconpacks.material.4.5.0.nupkg.sha512",
     "C:\\Users\\Armand\\.nuget\\packages\\materialdesigncolors\\1.2.7\\materialdesigncolors.1.2.7.nupkg.sha512",
@@ -40,10 +40,7 @@
     "C:\\Users\\Armand\\.nuget\\packages\\system.text.encoding\\4.3.0\\system.text.encoding.4.3.0.nupkg.sha512",
     "C:\\Users\\Armand\\.nuget\\packages\\system.threading.tasks\\4.3.0\\system.threading.tasks.4.3.0.nupkg.sha512",
     "C:\\Users\\Armand\\.nuget\\packages\\windowsapicodepack-core\\1.1.1\\windowsapicodepack-core.1.1.1.nupkg.sha512",
-    "C:\\Users\\Armand\\.nuget\\packages\\windowsapicodepack-shell\\1.1.1\\windowsapicodepack-shell.1.1.1.nupkg.sha512",
-    "C:\\Users\\Armand\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\3.1.9\\microsoft.netcore.app.runtime.win-x64.3.1.9.nupkg.sha512",
-    "C:\\Users\\Armand\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\3.1.9\\microsoft.windowsdesktop.app.runtime.win-x64.3.1.9.nupkg.sha512",
-    "C:\\Users\\Armand\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\3.1.9\\microsoft.aspnetcore.app.runtime.win-x64.3.1.9.nupkg.sha512"
+    "C:\\Users\\Armand\\.nuget\\packages\\windowsapicodepack-shell\\1.1.1\\windowsapicodepack-shell.1.1.1.nupkg.sha512"
   ],
   "logs": [
     {
