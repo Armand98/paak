@@ -195,7 +195,8 @@
                                    HorizontalAlignment="Center" 
                                    Foreground="White"/>
 
-                        <ListBox x:Name="listBoxTrustedDevices" 
+                        <ListBox ItemContainerStyle="{DynamicResource _ListBoxItemStyle}" 
+                                 x:Name="listBoxTrustedDevices" 
                                  Width="425" 
                                  MaxHeight="200" 
                                  SelectionChanged="listBoxTrustedDevices_SelectionChanged"/>
@@ -226,8 +227,12 @@
                     
                     <TextBlock Text="Protected files" HorizontalAlignment="Center"/>
 
-                    <ListBox x:Name="listBoxFiles" Width="800"  MaxHeight="300" 
-                                 Margin="0,10,0,10" FontSize="18"/>
+                    <ListBox ItemContainerStyle="{DynamicResource _ListBoxItemStyle}" 
+                             x:Name="listBoxFiles" 
+                             Width="800"  
+                             MaxHeight="300" 
+                             Margin="0,10,0,10" 
+                             FontSize="18"/>
 
                     <StackPanel Orientation="Horizontal" 
                                 HorizontalAlignment="Center">
@@ -258,7 +263,8 @@
                     <TextBlock Text="Protected folders" 
                                HorizontalAlignment="Center"/>
 
-                    <ListBox x:Name="listBoxFolders" 
+                    <ListBox ItemContainerStyle="{DynamicResource _ListBoxItemStyle}"
+                             x:Name="listBoxFolders" 
                              Width="800" 
                              MaxHeight="300" 
                              Margin="0,10,0,10" 
