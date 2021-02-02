@@ -1,4 +1,4 @@
-# Engeneering Thesis
+# Engeneering Thesis "Design and implementation of hardware key software for user files protection and access authorization"
 # PAAK (Pendrive as a key) - Security Software
 ## Table of Contents
 * [License](#License)
