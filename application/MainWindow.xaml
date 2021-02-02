@@ -1,0 +1,440 @@
+﻿<Window x:Class="USB_Locker.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:local="clr-namespace:USB_Locker"
+        mc:Ignorable="d" FontSize="20"
+        AllowsTransparency="True" Background="Transparent"
+        WindowStyle="None" ResizeMode="NoResize"
+        Title="USB Locker" Height="500" Width="900" FontFamily="Helvetica"
+        MouseDown="Window_MouseDown">
+    <Window.Resources>
+        <ResourceDictionary Source="ButtonTheme.xaml"/>
+    </Window.Resources>
+    <Grid>
+        <Border CornerRadius="10" Grid.RowSpan="2">
+            <Border.Background>
+                <LinearGradientBrush>
+                    <GradientStop Color="#05454C" Offset="0.0"/>
+                    <GradientStop Color="#7B0F65" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+        </Border>
+        <TabControl Background="Transparent" BorderThickness="0" Margin="10" TabStripPlacement="Top">
+            <TabControl.Resources>
+                <Style TargetType="TabItem">
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="Opacity" Value="0.7"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TabItem">
+                                <Grid x:Name="Pasel">
+                                    <ContentPresenter x:Name="ContentSite"
+                                                      VerticalAlignment="Center"
+                                                      ContentSource="Header"
+                                                      Margin="10,2"/>
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Opacity" Value="1"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TabControl.Resources>
+            
+            <TabItem Header="General">
+                <Grid>
+                    
+                    <Grid.ColumnDefinitions>
+                        
+                        <ColumnDefinition Width="350"/>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="350"/>
+                        
+                    </Grid.ColumnDefinitions>
+                    
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel VerticalAlignment="Center" 
+                                Grid.Column="1">
+                        
+                        <iconPacks:PackIconMaterial Kind="LockOpen" 
+                                                    x:Name="IconLock"
+                                                    Foreground="GreenYellow" 
+                                                    HorizontalAlignment="Center" 
+                                                    VerticalAlignment="Center"
+                                                    Height="150" Width="150"
+                                                    Margin="0,30,0,10"/>   
+                        
+                        <TextBlock Text="P . A . A . K"
+                                   FontWeight="Light"
+                                   FontSize="40"
+                                   Foreground="White"
+                                   HorizontalAlignment="Center"/>
+                        
+                    </StackPanel>
+
+                    <StackPanel VerticalAlignment="Center" Grid.Column="0">
+
+                        <TextBlock Text="Number of keys:"
+                                   FontWeight="Light"
+                                   FontSize="25"
+                                   Foreground="White"
+                                   HorizontalAlignment="Center"/>
+
+                        <Label x:Name="labelKeysCounter"
+                               Content="0"
+                               FontWeight="Light"
+                               FontSize="50"
+                               Foreground="White"
+                               HorizontalAlignment="Center"/>
+
+                    </StackPanel>
+
+                    <StackPanel VerticalAlignment="Center" 
+                                Grid.Column="3">
+
+                        <TextBlock Text="Number of protected files:"
+                                   FontWeight="Light"
+                                   FontSize="25"
+                                   Foreground="White"
+                                   HorizontalAlignment="Center"/>
+
+                        <Label x:Name="labelFilesCounter"
+                               Content="0"
+                               FontWeight="Light"
+                               FontSize="50"
+                               Foreground="White"
+                               HorizontalAlignment="Center"/>
+                        
+                    </StackPanel>
+
+                    <StackPanel VerticalAlignment="Center" 
+                                Grid.Column="0" 
+                                Grid.Row="1" 
+                                Grid.ColumnSpan="3">
+                        
+                        <Label x:Name="labelUsername" 
+                               Content="Hello" FontSize="25"
+                               FontWeight="Light"
+                               Margin="0,0,0,20" 
+                               VerticalAlignment="Top"
+                               HorizontalAlignment="Center"/>
+                        
+                        <TextBlock Text="Status:"
+                                   FontWeight="Light"
+                                   FontSize="35"
+                                   Foreground="White"
+                                   HorizontalAlignment="Center"/>
+
+                        <Label x:Name="labelStatus"
+                               Content="Authorized"
+                               FontWeight="Light"
+                               FontSize="50"
+                               HorizontalAlignment="Center"
+                               Foreground="GreenYellow"/>
+                        
+                    </StackPanel>
+                    
+                </Grid>
+                
+            </TabItem>
+            
+            <TabItem Header="Devices">
+                
+                <Grid>
+                    
+                    <Grid.ColumnDefinitions>
+                        
+                        <ColumnDefinition Width="450"/>
+                        <ColumnDefinition Width="450"/>
+                        
+                    </Grid.ColumnDefinitions>
+                    
+                    <Grid.RowDefinitions>
+                        
+                        <RowDefinition Height="auto"/>
+                        
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Column="0" 
+                                Margin="0,50,0,0">
+                        
+                        <TextBlock Text="Connected devices:" 
+                                   HorizontalAlignment="Center" 
+                                   Foreground="White"/>
+
+                        <ListBox ItemContainerStyle="{DynamicResource _ListBoxItemStyle}"
+                                 x:Name="listBoxConnectedDevices"
+                                 Width="425" 
+                                 Margin="0,5,0,5" 
+                                 MaxHeight="200" 
+                                 FontSize="18" 
+                                 SelectionChanged="listBoxConnectedDevices_SelectionChanged"/>
+
+                        <Button x:Name="submitButton" 
+                                Width="100" 
+                                Height="40" 
+                                Content="Select"
+                                IsEnabled="False"
+                                Click="submitButton_Click"/>
+                        
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Margin="0,50,0,0">
+                        
+                        <TextBlock Text="Connected trusted devices:" 
+                                   HorizontalAlignment="Center" 
+                                   Foreground="White"/>
+
+                        <ListBox ItemContainerStyle="{DynamicResource _ListBoxItemStyle}" 
+                                 x:Name="listBoxTrustedDevices" 
+                                 Width="425" 
+                                 MaxHeight="200" 
+                                 SelectionChanged="listBoxTrustedDevices_SelectionChanged"/>
+
+                        <Label x:Name="statusLabel" 
+                               Content="No trusted devices found" 
+                               Grid.ColumnSpan="2" 
+                               Foreground="OrangeRed" 
+                               Margin="0,0,0,10"
+                               HorizontalContentAlignment="Center"/>
+
+                        <Button x:Name="deleteTrustedDeviceBtn" 
+                                Content="Delete"
+                                Width="100" 
+                                Height="40" 
+                                Click="deleteTrustedDeviceBtn_Click"/>
+
+
+                    </StackPanel>
+                    
+                </Grid>
+                
+            </TabItem>
+            
+            <TabItem Header="Files">
+                
+                <StackPanel Margin="0,50,0,0">
+                    
+                    <TextBlock Text="Protected files" HorizontalAlignment="Center"/>
+
+                    <ListBox ItemContainerStyle="{DynamicResource _ListBoxItemStyle}" 
+                             x:Name="listBoxFiles" 
+                             Width="800"  
+                             MaxHeight="300" 
+                             Margin="0,10,0,10" 
+                             FontSize="18"/>
+
+                    <StackPanel Orientation="Horizontal" 
+                                HorizontalAlignment="Center">
+                        
+                        <Button x:Name="addFilesBtn" 
+                                Content="Add files" 
+                                Margin="0,0,50,0"
+                                Width="150" 
+                                Height="40" 
+                                Click="addFilesBtn_Click"/>
+
+                        <Button x:Name="deleteFilesBtn" 
+                                Content="Delete files"
+                                Width="150" 
+                                Height="40" 
+                                Click="deleteFilesBtn_Click"/>
+                        
+                    </StackPanel>
+                    
+                </StackPanel>
+                
+            </TabItem>
+            
+            <TabItem Header="Folders">
+                
+                <StackPanel Margin="0,50,0,0">
+                    
+                    <TextBlock Text="Protected folders" 
+                               HorizontalAlignment="Center"/>
+
+                    <ListBox ItemContainerStyle="{DynamicResource _ListBoxItemStyle}"
+                             x:Name="listBoxFolders" 
+                             Width="800" 
+                             MaxHeight="300" 
+                             Margin="0,10,0,10" 
+                             FontSize="18"/>
+
+                    <StackPanel Orientation="Horizontal" 
+                                HorizontalAlignment="Center">
+                        <Button x:Name="addFoldersBtn" 
+                                Content="Add folders" 
+                                Margin="0,0,50,0"
+                                Width="150" Height="40" 
+                                Click="addFoldersBtn_Click"/>
+
+                        <Button x:Name="deleteFoldersBtn" 
+                                Content="Delete folders"
+                                Width="150" Height="40" 
+                                Click="deleteFoldersBtn_Click"/>
+                    </StackPanel>
+                    
+                </StackPanel>
+                
+            </TabItem>
+
+            <TabItem Header="Factory reset / lost key">
+                
+                <StackPanel Margin="0, 100, 0, 0" 
+                            HorizontalAlignment="Center">
+                    
+                    <Label Content="In case you have lost your key, you can recover your files here." 
+                           HorizontalAlignment="Center"/>
+
+                    <StackPanel Orientation="Horizontal" 
+                                Margin="0,20,0,0" 
+                                HorizontalAlignment="Center">
+                        
+                        <Label x:Name="labelSecurityQuestion"
+                               FontFamily="Helvatica"
+                               FontWeight="Light"
+                               HorizontalAlignment="Center"
+                               Foreground="White"
+                               Background="Transparent"
+                               BorderThickness="0"
+                               Width="400"
+                               HorizontalContentAlignment="Center"
+                               Height="32"
+                               FontSize="20"
+                               Content="Security question"/>
+
+
+                        <iconPacks:PackIconMaterial Kind="CommentQuestion"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalAlignment="Center"
+                                                    Foreground="White"/>
+                    </StackPanel>
+                    
+                    <Border Width="420"
+                            Height="2"
+                            Background="White"
+                            Opacity="0.5"/>
+                    
+                    <StackPanel Orientation="Horizontal" Margin="0,20,0,0" 
+                                HorizontalAlignment="Center">
+                        
+                        <TextBox x:Name="textBoxSecurityAnswer"
+                                 FontFamily="Helvatica"
+                                 FontWeight="Light"
+                                 FontSize="20"
+                                 HorizontalAlignment="Center"
+                                 Foreground="White"
+                                 Background="Transparent"
+                                 BorderThickness="0"
+                                 Width="400"
+                                 HorizontalContentAlignment="Center"
+                                 Opacity="0.5"
+                                 Height="32" 
+                                 Text="Security answer"
+                                 GotFocus="textBoxSecurityAnswer_GotFocus" 
+                                 LostFocus="textBoxSecurityAnswer_LostFocus"/>
+
+                        <iconPacks:PackIconMaterial Kind="Text"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalAlignment="Center"
+                                                    Foreground="White"/>
+                    </StackPanel>
+                    
+                    <Border Width="420"
+                            Height="2"
+                            Background="White"
+                            Opacity="0.5"/>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,20,0,0"
+                                HorizontalAlignment="Center">
+                        
+                        <PasswordBox x:Name="textBoxRecoveryPassword"
+                                     FontFamily="Helvatica"
+                                     FontWeight="Light"
+                                     Password="Password"
+                                     FontSize="20"
+                                     HorizontalAlignment="Center"
+                                     Foreground="White"
+                                     Background="Transparent"
+                                     BorderThickness="0"
+                                     Width="400"
+                                     HorizontalContentAlignment="Center"
+                                     Opacity="0.5"
+                                     Height="30"
+                                     Cursor="IBeam"
+                                     GotFocus="textBoxRecoveryPassword_GotFocus"
+                                     LostFocus="textBoxRecoveryPassword_LostFocus"/>
+                        
+                        <iconPacks:PackIconMaterial Kind="Key"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalAlignment="Center"
+                                                    Foreground="White"/>
+                    </StackPanel>
+                    
+                    <Border Width="420"
+                            Height="2"
+                            Background="White"
+                            Opacity="0.5"/>
+
+                    <Button x:Name="btnRecoverFiles"
+                            Margin="0,20,0,0"
+                            Content="Recover files"
+                            Width="250" Height="50" Click="btnRecoverFiles_Click"/>
+                    
+                </StackPanel>
+                
+            </TabItem>
+            
+        </TabControl>
+        
+        <CheckBox x:Name="checkBoxAutoStart" 
+                  VerticalAlignment="Top" 
+                  HorizontalAlignment="Right" 
+                  Margin="0,13,100,0" 
+                  Checked="comboBoxAutoStart_Checked"
+                  FlowDirection="RightToLeft">
+            
+            <TextBlock FlowDirection="LeftToRight" 
+                       Text="Autostart:" 
+                       FontWeight="Light" 
+                       FontSize="20" 
+                       Foreground="White"/>
+        </CheckBox>
+        
+        <Button x:Name="btnMinimize" 
+                VerticalAlignment="Top" 
+                HorizontalAlignment="Right" 
+                Margin="0,10,50,0" 
+                Height="30" 
+                Width="30" 
+                Click="btnMinimize_Click">
+            
+            <iconPacks:PackIconMaterial Kind="WindowMinimize" 
+                                        Foreground="White"/>
+            
+        </Button>
+        
+        <Button x:Name="btnExit" 
+                VerticalAlignment="Top" 
+                HorizontalAlignment="Right" 
+                Margin="0,10,10,0" 
+                Height="30" 
+                Width="30" 
+                Click="btnExit_Click">
+            
+            <iconPacks:PackIconMaterial Kind="Close" 
+                                        Foreground="White"/>
+            
+        </Button>
+    </Grid>
+</Window>
