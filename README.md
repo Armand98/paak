@@ -17,7 +17,9 @@ PAAK is provided as-is under the MIT license for noncomercial and educational pu
 ## General info
 This program allows to create an authentication key from USB device and protect your files.  
 Program works offline and every user has an independent account.
-Files stay encrypted until you connect your authentication USB device key which is related to your account and your files.  
+Files stay encrypted until you connect your authentication USB device key which is related to your account and your files.
+
+Demo is recorded as a screencast in "screencast" directory.
 	
 ## Technologies
 Project is created with:
